@@ -37,6 +37,12 @@ public class UsuarioService {
         if (repo.existsByUsername(usuario.getUsername())){
             throw new IllegalArgumentException("Este usuario ya existe!");
         }
+
+        //Validacion de correo único al crearlo
+        if (repo.existsByEmail(usuario.getEmail())) {
+            throw new IllegalArgumentException("El correo ya está registrado");
+        }
+
         if(usuario.getPassword() == null || usuario.getPassword().isBlank()){
             throw new IllegalArgumentException("La contrasena es obligatoria!");
         }
@@ -53,12 +59,20 @@ public class UsuarioService {
         if(!existente.getUsername().equals(datos.getUsername())
             && repo.existsByUsername(datos.getUsername())){
                 throw new IllegalArgumentException("El username ya existe!");
-            }
+        }
+
+        //Validacion de correo único al editar
+        if(!existente.getEmail().equals(datos.getEmail())
+            && repo.existsByEmail(datos.getEmail())){
+                throw new IllegalArgumentException("El correo ya está registrado");
+        }
 
         existente.setNombre(datos.getNombre());
         existente.setUsername(datos.getUsername());
         existente.setEmail(datos.getEmail());
         existente.setRol(datos.getRol());
+        existente.setTelefono(datos.getTelefono());
+        existente.setActivo(datos.isActivo());
 
         if (datos.getPassword() != null && !datos.getPassword().isBlank()){
             existente.setPassword(passwordEncoder.encode(datos.getPassword()));
