@@ -22,21 +22,30 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Lista de usuarios</h4>
-
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/usuarios/nuevo}" class="btn btn-primary">+ Nuevo Usuario</a>
     </div>
 
+    <!-- EJERCICIO 3 -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form th:action="@{/usuarios}" method="get" class="d-flex">
+                <input type="text" name="q" class="form-control me-2" placeholder="Buscar por nombre o usuario..." th:value="${q}">
+                <button type="submit" class="btn btn-outline-primary me-2">Buscar</button>
+                <a th:href="@{/usuarios}" class="btn btn-outline-secondary">Limpiar</a>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-striped align-middle">
-        
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Teléfono</th> 
+                <th>Teléfono</th>
                 <th>Rol</th>
-                <th>Estado</th> 
+                <th>Estado</th>
                 <th sec:authorize="hasRole('ADMIN')">Acciones</th>
             </tr>
         </thead>
@@ -46,19 +55,18 @@
                 <td th:text="${u.nombre}"></td>
                 <td th:text="${u.username}"></td>
                 <td th:text="${u.email}"></td>
-                <td th:text="${u.telefono}"></td> 
-                <td><span class="badge" th:classappend="${u.rol =='ADMIN'} ? 'bg-danger' : 'bg-secondary'"
-                    th:text="${u.rol}"></span></td>
+                <td th:text="${u.telefono}"></td>
                 <td>
-                    
+                    <span class="badge" th:classappend="${u.rol =='ADMIN'} ? 'bg-danger' : 'bg-secondary'" th:text="${u.rol}"></span>
+                </td>
+                <td>
                     <span th:if="${u.activo}" class="badge bg-success">Activo</span>
                     <span th:unless="${u.activo}" class="badge bg-secondary">Inactivo</span>
                 </td>
                 <td sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/usuarios/{id}/editar(id=${u.id})}" class="btn btn-sm btn-warning">Editar</a>
-                    <form th:action="@{/usuarios/{id}/eliminar(id=${u.id})}" method="post" class="d-inline"
-                    onsubmit="return confirm('Desea eliminar este usuario?');">
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                    <form th:action="@{/usuarios/{id}/eliminar(id=${u.id})}" method="post" class="d-inline" onsubmit="return confirm('Desea eliminar este usuario?');">
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
                     </form>
                 </td>
             </tr>
