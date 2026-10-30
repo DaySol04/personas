@@ -8,9 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import org.springframework.beans.factory.annotation.Value;
-
 
 @Configuration 
 public class SecurityConfig {
@@ -32,7 +30,13 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth 
                 .requestMatchers("/login", "/h2-console/**").permitAll()
-                .requestMatchers("/usuarios").hasRole("ADMIN")
+                
+                // solo el admi puede modificar
+                .requestMatchers("/usuarios/nuevo", "/usuarios/guardar", "/usuarios/*/editar", "/usuarios/*/actualizar", "/usuarios/*/eliminar").hasRole("ADMIN")
+                
+                // cualquier usuario logueado puede ver los detalles
+                .requestMatchers("/usuarios/**").authenticated() 
+                
                 .anyRequest().authenticated() 
             )
 

@@ -100,4 +100,18 @@ public class UsuarioController {
         flash.addFlashAttribute("mensaje", "Usuario eliminado con exito!");
         return "redirect:/usuarios";
     }
+
+    // Mostrar detalle de un usuario
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable Long id, Model model, RedirectAttributes flash) {
+        try {
+            Usuario u = service.buscarPorId(id);
+            model.addAttribute("usuario", u);
+            return "usuarios/detalle";
+        } catch (IllegalArgumentException e) {
+            // Si el ID no existe, se muestra el mensaje:
+            flash.addFlashAttribute("error", "El usuario solicitado no existe.");
+            return "redirect:/usuarios";
+        }
+    }
 }
