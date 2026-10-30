@@ -18,14 +18,18 @@
     </nav>
 
 <div class="container mt-4">
+    
     <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+    
+    <!--Mensaje de error (Ejercicio 4) -->
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Lista de usuarios</h4>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/usuarios/nuevo}" class="btn btn-primary">+ Nuevo Usuario</a>
     </div>
 
-    <!-- EJERCICIO 3 -->
+    <!-- EJERCICIO 3: BARRA DE BÚSQUEDA -->
     <div class="row mb-4">
         <div class="col-md-6">
             <form th:action="@{/usuarios}" method="get" class="d-flex">
@@ -43,9 +47,9 @@
                 <th>Nombre</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Teléfono</th>
+                <th>Teléfono</th> 
                 <th>Rol</th>
-                <th>Estado</th>
+                <th>Estado</th> 
                 <th sec:authorize="hasRole('ADMIN')">Acciones</th>
             </tr>
         </thead>
@@ -79,4 +83,3 @@
 
 </body>
 </html>
-

@@ -11,10 +11,11 @@
         <div class="card-body p-4">
             <h3 class="mb-4 text-center">Iniciar sesión</h3>
 
-            <div th:if="${param.error}" class="alert alert-danger">Usuario o contraseña incorrectos</div>
+            
+            <div th:if="${param.error}" class="alert alert-danger">Usuario o contraseña incorrectos, o cuenta inactiva</div>
             <div th:if="${param.logout}" class="alert alert-success">Sesión cerrada</div>
 
-            <!-- Spring Security procesa este POST automáticamente -->
+            
             <form th:action="@{/login}" method="post">
                 <div class="mb-3">
                     <label class="form-label">Usuario</label>
@@ -33,3 +34,6 @@
 </div>
 </body>
 </html>
+
+
+

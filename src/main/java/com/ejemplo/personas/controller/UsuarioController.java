@@ -3,6 +3,7 @@ package com.ejemplo.personas.controller;
 import com.ejemplo.personas.model.Usuario;
 import com.ejemplo.personas.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -81,9 +82,20 @@ public class UsuarioController {
         }
     }
     
-    // Eliminar un Usuario 
+    // Eliminar un Usuario (auto-eliminación)
     @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable Long id, RedirectAttributes flash) {
+    public String eliminar(@PathVariable Long id, RedirectAttributes flash, Authentication authentication) {
+        // Se obtiene el username de la persona que está logueada
+        String usernameActual = authentication.getName();
+        Usuario usuarioAEliminar = service.buscarPorId(id);
+
+        // Se compara si el que intenta borrar es el mismo que está logueado
+        if (usuarioAEliminar.getUsername().equals(usernameActual)) {
+            flash.addFlashAttribute("error", "Error: Un administrador no puede eliminarse a sí mismo.");
+            return "redirect:/usuarios";
+        }
+
+        //  Si no es él mismo, se elimina
         service.eliminar(id);
         flash.addFlashAttribute("mensaje", "Usuario eliminado con exito!");
         return "redirect:/usuarios";

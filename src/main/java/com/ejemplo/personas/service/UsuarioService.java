@@ -19,7 +19,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Método para buscar (lo usaremos en el controlador)
+    // Método para buscar 
     public List<Usuario> buscar(String q){
         if (q == null || q.trim().isEmpty()){
             return repo.findAll();

@@ -25,6 +25,7 @@ public class UsuarioDetailsService implements UserDetailsService {
         return User.withUsername(u.getUsername())
                 .password(u.getPassword())
                 .roles(u.getRol())
+                .disabled(!u.isActivo()) // Bloquea el login si está inactivo
                 .build();
     }
     
