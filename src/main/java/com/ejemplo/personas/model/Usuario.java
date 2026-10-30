@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 @Entity 
 @Table(name="usuarios")
@@ -32,14 +33,24 @@ public class Usuario {
     @Column (nullable = false)
     private String rol ="USER";
 
+    @NotBlank(message = "El teléfono es requerido")
+    @Pattern(regexp = "\\d{8}", message = "El teléfono debe tener 8 digitos") //Pattern: para que tenga solo 8 digitos
+    @Column(nullable = false)
+    private String telefono;
+
+    @Column(nullable = false)
+    private boolean activo = true;
+
     public Usuario(){}
 
-    public Usuario(String nombre, String username, String email, String password, String rol){
+    public Usuario(String nombre, String username, String email, String password, String rol, String telefono, boolean activo){
     this.nombre = nombre; 
     this.username = username; 
     this.email = email;
     this.password = password;
     this.rol = rol; 
+    this.telefono = telefono;
+    this.activo = activo;
     }
 
     //Getters y Setters 
@@ -89,6 +100,22 @@ public class Usuario {
 
     public void setRol(String rol){
         this.rol = rol;
+    }
+
+    public String getTelefono(){
+        return telefono;
+    }
+
+    public void setTelefono(String telefono){
+        this.telefono = telefono;
+    }
+
+    public boolean isActivo(){ //Is... por ser booleana
+        return activo; 
+    }
+
+    public void setActivo(boolean activo){
+         this.activo = activo; 
     }
 }
 

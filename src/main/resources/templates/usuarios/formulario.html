@@ -11,7 +11,6 @@
 
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <!-- La URL de destino cambia según si creamos o editamos -->
     <form th:object="${usuario}" method="post"
           th:action="${modo == 'crear'} ? @{/usuarios/guardar} : @{/usuarios/{id}/actualizar(id=${usuario.id})}">
 
@@ -36,6 +35,14 @@
             <div class="invalid-feedback" th:errors="*{email}"></div>
         </div>
 
+        <!-- CAMPO: TELÉFONO -->
+        <div class="mb-3">
+            <label class="form-label">Teléfono</label>
+            <input type="text" th:field="*{telefono}" class="form-control"
+                   th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:errors="*{telefono}"></div>
+        </div>
+
         <div class="mb-3">
             <label class="form-label">Contraseña</label>
             <input type="password" th:field="*{password}" class="form-control">
@@ -48,6 +55,12 @@
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
             </select>
+        </div>
+
+        <!--  CAMPO: CHECKBOX ACTIVO -->
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" th:field="*{activo}">
+            <label class="form-check-label">Usuario Activo</label>
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
